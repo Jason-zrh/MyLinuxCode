@@ -1,2 +1,2 @@
 # MyLinuxCode
-My Linux Code
+This is Linux code I worked on during my study period.
