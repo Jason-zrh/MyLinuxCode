@@ -1,0 +1,45 @@
+PID : 进程ID: 可以认为是进程的身份证可以通过pid找到或者管理进程
+      例如观察PID为1的进程的信息:ls /proc/1
+      或者杀死PID为1的进程kill -9 1(这里写PID)
+
+PPID : 父进程ID
+
+连续查看进程的指令: while :; do ps axj | head -1 && ps axj | grep proc | grep -v grep
+
+用代码查看当前进程
+#include <sys/types.h>
+#include <unisted.h>
+
+
+int main()
+{
+    while(1)
+    {
+        printf("I'm a process, my pid:%d, my ppid:%d" ,getpid(), getppid());
+    }
+
+    return 0;
+}
+
+
+fork()函数的使用
+fork会创建出一个子进程，并给子进程返回0， 父进程返回子进程的PID
+
+为什么要有两个返回值？
+答：因为要分流，让不同的代码分开执行，事实上fork后面的代码是共享的，不同返回值可以通过if else if执行不同的功能
+
+为什么给父进程返回子进程PID，但是给子进程返回0？
+答：因为要让父进程控制和管理子进程
+
+为什么要创建子进程呢？
+答：因为要子进程执行不同的程序和工作，需要让父子执行不同的代码块
+
+为什么fork可以有两个返回值？
+答：实际上fork也是一个函数，在函数的最后是return ret;  但是在返回之前子进程就已经被创建了，子进程复制了父进程的代码，所以有两个返回值
+
+为什么pid_t id 可以有两个值
+答：任何系统下，进程的工作是独立的，不会影响其他进程
+
+
+
+
