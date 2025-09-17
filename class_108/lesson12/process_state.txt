@@ -1,3 +1,24 @@
 操作系统层面进程的状态：运行，阻塞，挂起
 
 
+
+Linux内核中的进程状态
+static const char * const task_state_array[] = 
+{
+"R (running)", /* 0 */
+"S (sleeping)", /* 1 */
+"D (disk sleep)", /* 2 */
+"T (stopped)", /* 4 */
+"t (tracing stop)", /* 8 */
+"X (dead)", /* 16 */
+"Z (zombie)", /* 32 */
+}
+
+R: 就是进程的运行状态
+R+代表在前台运行，在运行时不能输其他指令，当运行时带上&，可以在后台运行
+
+S: 睡眠状态，相当于操作系统的阻塞状态
+
+D: 深度睡眠，S状态是浅度睡眠，可以被唤醒或执行操作，如kill -9 PID
+   
+
