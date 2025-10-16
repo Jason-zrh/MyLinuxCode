@@ -5,7 +5,9 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <error.h>
-
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <ctype.h>
 
 #define LINE_SIZE 1024
 #define ARGC 30
@@ -13,6 +15,12 @@
 #define DELIM " "
 #define EXIT_CODE -1
 
+
+// 重定向标识符   
+#define IN_RDIR          0   
+#define OUT_RDIR         1
+#define APPEND_RDIR      2
+#define NONE            -1
 
 
 // 命令存储
@@ -23,6 +31,10 @@ char* argv[ARGC];
 int lastcode = 0;
 char pwd[LINE_SIZE];
 
+
+// 重定向标记
+char* redirfilename = NULL;
+int redir = NONE;
 
 const char* getusername()
 {
@@ -41,6 +53,61 @@ void getpwd()
 }
 
 
+void check_redir(char* cmd)
+{
+    // 检查cmd中是否有 > />> /<标识
+    char* pos = cmd;
+    while(*pos)
+    {
+        if(*pos == '>')
+        {
+            // 可能有两种情况
+            if(*(pos + 1) == '>')
+            {
+                redir =  APPEND_RDIR;
+                // 追加重定向
+                *pos++ = '\0';
+                *pos++ = '\0';
+                while(isspace(*pos))pos++;
+                redirfilename = pos;
+                break;
+            }
+            else 
+            {
+                // 输出重定向
+                *pos = '\0';
+                pos++;
+                // 更改标识符
+                redir = OUT_RDIR;
+                // 找出重定向文件名字
+                while(isspace(*pos))pos++;
+                redirfilename = pos;
+                break;
+            }
+        }
+        else if(*pos == '<')
+        {
+            // 输入重定向
+            // 先把<符号替换成\0
+            *pos = '\0';
+            pos++;
+            // 更改标识符
+            redir = IN_RDIR;
+            // 找出重定向文件名字
+            while(isspace(*pos))pos++;
+
+            redirfilename = pos;
+            break;
+        }
+        else 
+        {
+            // do nothing
+        }
+
+        pos++;
+    }
+}
+
 void Interact(char* cline, size_t size)
 {
     getpwd();
@@ -50,6 +117,9 @@ void Interact(char* cline, size_t size)
     (void)s;
     // 把字符串最后的\n去掉
     cline[strlen(cline) - 1] = '\0';
+
+    // 在这里检查是否存在重定向标识符
+    check_redir(cline);
 }
 
 
@@ -73,6 +143,25 @@ void NormalExecute()
     }
     else if(id == 0)
     {
+        // 子进程
+        int fd = 0;
+        // 这里检查标识符有没有被修改过
+        if(redir == IN_RDIR)
+        {
+            // 打开文件
+            fd = open(redirfilename, O_RDONLY);
+            dup2(fd, 0);
+        }
+        else if(redir == OUT_RDIR)
+        {
+            fd = open(redirfilename, O_WRONLY|O_CREAT|O_APPEND, 0666);
+            dup2(fd, 1);
+        }
+        else if(redir == APPEND_RDIR)
+        {
+            fd = open(redirfilename, O_WRONLY|O_CREAT|O_APPEND, 0666);
+            dup2(fd, 1);
+        }
         execvp(argv[0], argv);
         exit(EXIT_CODE);
     }
@@ -89,10 +178,6 @@ void NormalExecute()
     }
 }
 
-int buildCommand()
-{
-
-}
 
 int main()
 {
@@ -100,6 +185,9 @@ int main()
     size_t quit = 0;
     while(!quit)
     {
+        // 在每次检查的最开始把标记符号重新置NONE
+        redir = NONE;
+        redirfilename = NULL;
         // 命令的输入
         Interact(commandline, LINE_SIZE);
         
