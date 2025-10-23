@@ -22,12 +22,14 @@ void Writer(int wfd)
 
     while(true)
     {
+        sleep(1);
         // 构建发送字符串
         buffer[0] = 0;
         snprintf(buffer, sizeof(buffer), "%s-%d-%d", s.c_str(), self, number++);
         // 写给父进程
         write(wfd, buffer, strlen(buffer));
-        sleep(1);
+        if(number == 5)
+            break;
     }
 }
 
@@ -44,7 +46,13 @@ void Reader(int rfd)
 
             cout << "father get a msg[" << getpid() << "]: " << buffer << endl;
         }
-        
+        else if(n == 0)
+        {
+            cout << "father read file done!" << endl;
+            break;
+        }
+        else
+            break;
     }
 }
 
