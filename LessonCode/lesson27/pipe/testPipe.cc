@@ -27,17 +27,16 @@ void Writer(int wfd)
         snprintf(buffer, sizeof(buffer), "%s-%d-%d", s.c_str(), self, number++);
         // 写给父进程
         write(wfd, buffer, strlen(buffer));
-        if(number == 5)
-            break;
     }
 }
 
 void Reader(int rfd)
 {
     char buffer[NUM];
-    buffer[0] = 0;
-    while(true)
+    int cnt = 5;
+    while(cnt--)
     {
+        buffer[0] = 0;
         ssize_t n = read(rfd, buffer, sizeof(buffer));
         if(n > 0)
         {
@@ -58,38 +57,41 @@ void Reader(int rfd)
 
 int main()
 {
+    // 1. 建立通信信道
     int pipefd[N] = {0};
     int n = pipe(pipefd);
-    if(n < 0)
-        return 1;
+    if(n < 0) return 1;  // 创建管道失败
     // cout << "fd[0]:" << fdarray[0] << " , fd[1]:" << fdarray[1] << endl;
     pid_t id = fork();
     if(id < 0) 
     {
-        return 2;
+        return 2; // 创建子进程失败
     }
+    // 子进程写入，父进程读取
     if(id == 0)
     {
-        // child
-        // 子进程写入，父进程读取
-        close(pipefd[0]);  // 关闭读
+        // 2. 进程间通信
+        close(pipefd[0]); // 关闭读
         // IPC code
+        // 子进程一直写
         Writer(pipefd[1]);
-
         close(pipefd[1]); 
         exit(0);
     }
-    // father
-    close(pipefd[1]);  // 关闭写
 
+    close(pipefd[1]);  // 关闭写
     // IPC code
     Reader(pipefd[0]);
-    
-    // 等待回收子进程
-    pid_t rid = waitpid(id, nullptr, 0);
-    if(rid < 0)
-        return 3;
-
+    // 读了5秒后关掉读端，观察子进程状态
     close(pipefd[0]);
+    cout << "Father close Read: " << pipefd[0] << endl;
+    sleep(5);
+
+    // 等待回收子进程
+    int status = 0;
+    pid_t rid = waitpid(id, &status, 0);
+    if(rid < 0) return 3;// 进程回收失败
+
+    cout << "回收子进程成功, 返回状态: " << WIFEXITED(status) << ", 进程退出信号: " << WTERMSIG(status) << endl;
     return 0;
 }
