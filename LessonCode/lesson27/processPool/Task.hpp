@@ -64,9 +64,9 @@ public:
     { }
 
 public:
-    int _cmdfd;          // 父进程要进行写入的文件操作符
+    int _cmdfd;             // 父进程要进行写入的文件操作符
     pid_t _workerpid;       // 控制的子进程的pid
-    string _processname; // 进程的名字
+    string _processname;    // 进程的名字
 };
 
 void worker()
