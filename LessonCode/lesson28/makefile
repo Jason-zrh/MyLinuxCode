@@ -9,3 +9,4 @@ server:server.cc
 .PHONY:clean
 clean:
 	rm -f server client myfifo
+
