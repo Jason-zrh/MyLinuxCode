@@ -18,8 +18,8 @@ int main()
         while(cnt--)
         {
             cout << "Im a child process, pid: " << getpid() << endl;
+            sleep(1);
         }
-
     }
 
     // father
