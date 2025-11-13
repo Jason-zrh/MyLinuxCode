@@ -57,7 +57,7 @@ int main()
 
 // int main()
 // {
-//     signal(2, handler);
+//     signal(2s, handler);
 
 //     while(!flag)
 //     {
