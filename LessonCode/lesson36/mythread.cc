@@ -2,68 +2,102 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 
-class Request
+string toHex(const pthread_t tid)
 {
-public:
-    Request(int start, int end, const string& name)
-    :_start(start)
-    ,_end(end)
-    ,_threadname(name)
-    { }
+    char hex[64];
+    snprintf(hex, sizeof(hex), "%p", tid); // 重定向这一块
+    return hex;
+}
 
-public:
-    int _start;
-    int _end;
-    const string _threadname;
-};
-
-class Response
+void* ThreadRoutine(void* args)
 {
-public:
-    Response(int result = 0, int exitcode = 0)
-    :_result(result)
-    ,_exitcode(exitcode)
-    { }
-public:
-    int _result;
-    int _exitcode;
-};
-
-
-void* sumCount(void* args)
-{
-    Request* rq = static_cast<Request*>(args);
-    Response* ret = new Response;
-    for(int i = rq->_start; i <= rq->_end; i++)
+    while(true)
     {
-        cout << "\r" << rq->_threadname << " is caculate: " << i << "%" << flush;
-        ret->_result += i;
-        usleep(100000);
+        cout << "thread id: " << toHex(pthread_self()) << endl;
+        sleep(1);
     }
-    cout << endl;
-    delete rq;
-    return ret;
 }
 
 int main()
 {
-    // 创建任务类
-    Request* rq = new Request(1, 100, "Thread caculate");
-    // 在新线程中要执行加和
-    pthread_t tid;
-    pthread_create(&tid, nullptr, sumCount, rq);
+    pthread_t tid = 0;
+    pthread_create(&tid, nullptr, ThreadRoutine, (void*)"Thread one");
+    sleep(1);
 
-    // 结果类
-    void* ret;
-    pthread_join(tid, &ret);
-    Response* rsp = static_cast<Response*>(ret);
-    cout << "The sum is: " << rsp->_result << " exitcode: " << rsp->_exitcode << endl;
-    
+    cout << "main thread create new thread done, new tid: " << toHex(tid) << endl;
+    pthread_join(tid, nullptr);
     return 0;
 }
+
+
+
+
+
+
+
+// class Request
+// {
+// public:
+//     Request(int start, int end, const string& name)
+//     :_start(start)
+//     ,_end(end)
+//     ,_threadname(name)
+//     { }
+
+// public:
+//     int _start;
+//     int _end;
+//     const string _threadname;
+// };
+
+// class Response
+// {
+// public:
+//     Response(int result = 0, int exitcode = 0)
+//     :_result(result)
+//     ,_exitcode(exitcode)
+//     { }
+// public:
+//     int _result;
+//     int _exitcode;
+// };
+
+
+// void* sumCount(void* args)
+// {
+//     Request* rq = static_cast<Request*>(args);
+//     Response* ret = new Response;
+//     for(int i = rq->_start; i <= rq->_end; i++)
+//     {
+//         cout << "\r" << rq->_threadname << " is caculate: " << i << "%" << flush;
+//         ret->_result += i;
+//         usleep(10000);
+//     }
+//     cout << endl;
+//     delete rq;
+//     return ret;
+// }
+
+// int main()
+// {
+//     // 创建任务类
+//     Request* rq = new Request(1, 100, "Thread caculate");
+//     // 在新线程中要执行加和
+//     pthread_t tid;
+//     pthread_create(&tid, nullptr, sumCount, rq);
+
+//     // 结果类
+//     void* ret;
+//     pthread_join(tid, &ret);
+//     Response* rsp = static_cast<Response*>(ret);
+//     cout << "The sum is: " << rsp->_result << " exitcode: " << rsp->_exitcode << endl;
+    
+//     return 0;
+// }
 
 
 
