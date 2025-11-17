@@ -17,7 +17,7 @@ public:
     :_threadName("Thread-" + to_string(number))
     { }
 
-public:
+public:   
     string _threadName;
 };
 

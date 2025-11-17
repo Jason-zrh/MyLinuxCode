@@ -4,7 +4,8 @@
 #include <pthread.h>
 #include <vector>
 #include <cstring>
-
+#include "LockGuard.hpp"
+ 
 using namespace std;
 
 int tickets = 3000;
@@ -28,20 +29,25 @@ void* getTicket(void* args)
 
     while(true)
     {
-        pthread_mutex_lock(td->_lock);
-        if(tickets > 0)
         {
-            // 模拟抢票过程
-            usleep(1000);
-            printf("%s get a ticket: %d\n", td->_threadName.c_str(), tickets);
-            tickets--;
-            pthread_mutex_unlock(td->_lock);
+            // 自动加锁解锁
+            LockGuard lockGuard(td->_lock);
+            // pthread_mutex_lock(td->_lock);
+            if(tickets > 0)
+            {
+                // 模拟抢票过程
+                usleep(1000);
+                printf("%s get a ticket: %d\n", td->_threadName.c_str(), tickets);
+                tickets--;
+                // pthread_mutex_unlock(td->_lock);
+            }
+            else
+            {
+                // pthread_mutex_unlock(td->_lock);
+                break;
+            }
         }
-        else
-        {
-            pthread_mutex_unlock(td->_lock);
-            break;
-        }
+        
         usleep(15);
     }
 
@@ -59,7 +65,7 @@ int main()
     vector<threadData* > tds;
 
     // 创建三个线程模拟抢票操作
-    for(int i = 1; i <= 3; i++)
+    for(int i = 1; i <= 5; i++)
     {
         pthread_t tid;
         threadData* td = new threadData(i, &lock);
@@ -82,22 +88,6 @@ int main()
     pthread_mutex_destroy(&lock);
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
