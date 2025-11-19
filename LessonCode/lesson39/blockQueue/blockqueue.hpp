@@ -20,10 +20,10 @@ public:
 
 
     // 消费者方法
-    T Pop()
+    T Pop()    
     {
         pthread_mutex_lock(&_mutex);
-        if(_q.size() == 0)
+        while(_q.size() == 0)
         {
             pthread_cond_wait(&_c_cond, &_mutex);
         }
@@ -41,7 +41,7 @@ public:
         // 为保证线程安全必须要加锁
         pthread_mutex_lock(&_mutex);
         // 同时这里是阻塞队列，不可能想生产的时候直接生产，需要确保生产条件满足
-        if(_q.size() == _maxcap)
+        while(_q.size() == _maxcap) // 如果被伪唤醒怎么办? -> 把if改while
         {
             // 在调用的时候自动释放锁
             pthread_cond_wait(&_p_cond, &_mutex);
