@@ -12,9 +12,11 @@ using namespace std;
 
 void Usage(string cmd)
 {
+    cout << "Usage: " << endl;
     cout << cmd << " + Serverip + Serverport" << endl;
 }
 
+// 在客户端与服务器连接的时候必须要有有效的ip地址和相同的端口
 int main(int argc, char* argv[])
 {
     if(argc != 3)
@@ -23,9 +25,12 @@ int main(int argc, char* argv[])
         exit(0);
     }
 
+    // 服务器ip
     string serverip = argv[1];
+    // 服务端口
     uint16_t serverport = stoi(argv[2]);
 
+    // 创建套接字
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if(sockfd < 0)
     {   
@@ -35,9 +40,11 @@ int main(int argc, char* argv[])
 
     // 构建目标服务器结构体
     struct sockaddr_in server;
+    // 清空结构体中的内容
     bzero(&server, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_port = htons(serverport);
+    // ip地址被用户使用的时候一般是字符串格式因为更好看，所以要在这里进行转化
     server.sin_addr.s_addr = inet_addr(serverip.c_str());
     socklen_t slen = sizeof(server);
 
@@ -49,10 +56,11 @@ int main(int argc, char* argv[])
         cout << "Please Enter@ ";
         getline(cin, msg);
 
+        // 向服务器发一个消息
         sendto(sockfd, msg.c_str(), msg.size(), 0, (const sockaddr*)&server, slen);
-
         struct sockaddr_in temp;
         socklen_t len = sizeof(temp);
+        // 从服务器接收消息
         ssize_t s = recvfrom(sockfd, buffer, 1023, 0, (sockaddr*)&temp, &len);
         if(s > 0)
         {
@@ -60,7 +68,7 @@ int main(int argc, char* argv[])
             cout << buffer << endl;
         }
     }
-    // 关闭文件描述符
+    // 关闭文件描述符(套接字)
     close(sockfd);
     return 0;
 }
