@@ -1,9 +1,69 @@
 #include "UdpServer.hpp"
 #include "log.hpp"
+#include <stdio.h>
+#include <vector>
 
 using namespace std;
 
 log lg;
+
+string Handler(const string& str)
+{
+    string res = "Serevr get a msg: ";
+    res += str;
+    cout << res << endl;
+    return res;
+}
+
+bool safeCheck(const string& cmd)
+{
+    vector<string> key_word{
+        "rm",
+        "mv",
+        "cp",
+        "yum",
+        "unlink"
+    };
+
+    for(auto& word : key_word)
+    {
+        auto pos = cmd.find(word);
+        if(pos != string::npos)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+string excuteCommand(const string& cmd)
+{
+    cout << "Get a cmd: " << cmd << endl;
+    if(!safeCheck(cmd))
+    {
+        return "Bad man!";
+    }
+
+    FILE* fp = popen(cmd.c_str(), "r");
+    if(fp == nullptr)
+    {
+        perror("popen");
+        return "error";
+    }
+
+    string res;
+    char buffer[4096];
+    while(true)
+    {
+        char* got = fgets(buffer, sizeof(buffer), fp);
+        if(got == nullptr)
+            break;
+        res += got;
+    }
+
+    pclose(fp);
+    return res;
+}
 
 int main(int argc, char* argv[])
 {
@@ -18,7 +78,7 @@ int main(int argc, char* argv[])
     unique_ptr<UdpServer> svr(new UdpServer(port));
 
     svr->Init();
-    svr->Run();
+    svr->Run(excuteCommand);
     
     return 0;
 }

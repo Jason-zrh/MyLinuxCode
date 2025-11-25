@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <cstring>
+#include <functional>
 #include <strings.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -14,6 +15,8 @@
 #define SIZE 1024
 
 using namespace std;
+// 与typedef string(const string&) func_t 相同意思
+using func_t = function<string(const string&)>;
 
 uint16_t defaultport = 8080;
 string defaultip = "0.0.0.0";
@@ -71,7 +74,7 @@ public:
 
     }
 
-    void Run()
+    void Run(func_t func)
     {
         // 服务器是一直挂起的
         _isRunning = true;
@@ -91,8 +94,9 @@ public:
             inBuffer[n] = 0;
 
             string info = inBuffer;
-            string echo_string = "Server echo# " + info;
-            cout << echo_string << endl;
+            // string echo_string = "Server echo# " + info;
+            // cout << echo_string << endl;
+            string echo_string = func(info);
 
             // 发回给客户端
             ssize_t m = sendto(_sockfd, echo_string.c_str(), echo_string.size(), 0, (const sockaddr*)&client, len);
