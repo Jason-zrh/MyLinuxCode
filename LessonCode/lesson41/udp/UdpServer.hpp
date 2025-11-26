@@ -136,6 +136,10 @@ public:
                 lg(Warning, "Recv failed, errno: %d, err string: %s", errno, strerror(errno));
                 continue;
             }
+            if(n > 0)
+            {
+                inBuffer[n] = 0;
+            }
 
             uint16_t clientport = ntohs(client.sin_port);
             string clientip = inet_ntoa(client.sin_addr);
