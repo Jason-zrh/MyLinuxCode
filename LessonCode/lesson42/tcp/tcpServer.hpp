@@ -4,6 +4,7 @@
 #include <memory>
 #include <string.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include <sys/types.h>          
 #include <sys/socket.h>
 #include <sys/wait.h>
@@ -23,6 +24,24 @@ enum{
 const int backlog = 10;
 const int defaultsockfd = -1;
 const string defaultip = "0.0.0.0";
+
+class tcpServer;
+class threadData
+{
+public:
+    threadData(const int& sockfd, const string& ip, const uint16_t& port, tcpServer* t)
+    :_sockfd(sockfd)
+    ,_clientip(ip)
+    ,_clientport(port)
+    ,_tsvr(t)
+    { }
+public:
+    int _sockfd;
+    string _clientip;
+    uint16_t _clientport;
+    tcpServer* _tsvr;
+};
+
 
 class tcpServer
 {
@@ -70,6 +89,15 @@ public:
         }
         lg(Info, "Listen socket success");
 
+    }   
+    static void* Routine(void* args)
+    {
+        // 主线程一直在获取新的连接，不能去阻塞的等待子线程，所以子线程一创建出来就要立马detach
+        pthread_detach(pthread_self());
+        threadData* td = static_cast<threadData*>(args);
+        td->_tsvr->Service(td->_sockfd, td->_clientip, td->_clientport);
+        delete td;
+        return nullptr;
     }
 
     void Run()
@@ -92,7 +120,7 @@ public:
             char clientip[32];
             inet_ntop(AF_INET, &(client.sin_addr), clientip, sizeof(clientip));
 
-
+            threadData* td = new threadData(sockfd, clientip, clientport, this);
             //2. 根据新链接进行通信 
             lg(Info, "Get a new link, sockfd: %d, client ip: %s, client port: %d", sockfd, clientip, clientport);
 
@@ -102,26 +130,31 @@ public:
 
 
             // Version two(多进程)
-            pid_t id = fork();
-            if(id == 0)
-            {
-                // 子进程
-                close(_listensock);
-                if(fork() > 0)
-                {
-                    // 把子进程杀掉，但是保留孙子进程来完成子进程的任务
-                    exit(0);
-                }
-                Service(sockfd, clientip, clientport);
-                close(sockfd);
-                exit(0);
-            }
-            close(sockfd);
-            // 父进程
-            pid_t rid = waitpid(id, nullptr, 0); // 不能使用阻塞等待
-            (void)rid;
+            // pid_t id = fork();
+            // if(id == 0)
+            // {
+            //     // 子进程
+            //     close(_listensock);
+            //     if(fork() > 0)
+            //     {
+            //         // 把子进程杀掉，但是保留孙子进程来完成子进程的任务
+            //         exit(0);
+            //     }
+            //     Service(sockfd, clientip, clientport);
+            //     close(sockfd);
+            //     exit(0);
+            // }
+            // close(sockfd);
+            // // 父进程
+            // pid_t rid = waitpid(id, nullptr, 0); // 不能使用阻塞等待
+            // (void)rid;
 
             // Version three(多线程版本)
+            pthread_t tid;
+            pthread_create(&tid, nullptr, Routine, td);
+
+            // Version four(线程池版本)
+
             
         }
     }
