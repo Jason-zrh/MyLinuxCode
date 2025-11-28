@@ -31,13 +31,18 @@ public:
         }
         else
         {
+            // 读的时候发生错误
             lg(Warning, "Read error, sockfd: %d, client ip: %s, client port: %d", _sockfd, _clientip.c_str(), _clientport);
+            return;
         }    
+
+        // 服务器对客户端的数据进行处理
         string echo_string = "Sever echo# ";
         echo_string += buffer;
+
         // 再把拼接后的string发回去
         write(_sockfd, echo_string.c_str(), echo_string.size());
-        // 一次之后直接关闭文件描述符
+        // 一次服务之后直接关闭文件描述符
         close(_sockfd);
     }
 

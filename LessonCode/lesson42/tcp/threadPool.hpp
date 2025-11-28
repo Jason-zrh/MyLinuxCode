@@ -101,14 +101,16 @@ public:
     void Push(const T& t)
     {
         Lock();
-
+        // 把任务加到队列中
         _tasks.push(t);
+        // 唤醒条件变量下等待的线程
         wakeUp();
-
         unLock();
     }
 
- 
+
+
+    // 单例模式(懒汉式 - 当第一次访问这个对象的时候才创建)
     static threadPool<T>* GetInstance()
     {
         // 保证线程安全的同时，双重判断可以防止第二次访问对象的时候重复竞争锁
@@ -138,6 +140,7 @@ private:
         pthread_mutex_destroy(&_mutex);
         pthread_cond_destroy(&_cond);
     }
+    // 拷贝构造和赋值构造方法直接删除
     threadPool(const threadPool<T>& ) = delete;
     const threadPool<T>& operator=(const threadPool<T>&) = delete;
 

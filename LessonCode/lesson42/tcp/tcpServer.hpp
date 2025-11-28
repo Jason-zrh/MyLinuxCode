@@ -1,6 +1,7 @@
 #pragma once
 #include "log.hpp"
 #include "Task.hpp"
+#include "Daemon.hpp"
 #include "threadPool.hpp"
 #include <iostream>
 #include <memory>
@@ -67,14 +68,18 @@ public:
         }
         lg(Info, "Create socket success, _listensock: %d", _listensock);
 
+        // 防止服务器偶发性不能立即重启(tcp)
+        int opt = 1;
+        setsockopt(_listensock, SOL_SOCKET, SO_REUSEADDR|SO_REUSEPORT, &opt, sizeof(opt));
+
         // 创建结构体信息
         sockaddr_in local;
         memset(&local, 0, sizeof(local));
         local.sin_family = AF_INET;
         local.sin_port = htons(_port);
         inet_aton(_ip.c_str(), &(local.sin_addr));
-
         socklen_t len = sizeof(local);
+
         // 将设置信息绑定到内核
         int n = bind(_listensock, (const sockaddr* )&local, len);
         if(n < 0)
@@ -108,9 +113,9 @@ public:
 // ========================== 服务器启动 ============================
     void Run()
     {
+        Daemon();
         // 启动的同时要把线程池也启动
         threadPool<Task>::GetInstance()->Start();
-
 
         lg(Info, "Tcp Server is running");
         while(true)
@@ -130,7 +135,9 @@ public:
             char clientip[32];
             inet_ntop(AF_INET, &(client.sin_addr), clientip, sizeof(clientip));
 
-            threadData* td = new threadData(sockfd, clientip, clientport, this);
+            // threadData* td = new threadData(sockfd, clientip, clientport, this);
+
+
             //2. 根据新链接进行通信 
             lg(Info, "Get a new link, sockfd: %d, client ip: %s, client port: %d", sockfd, clientip, clientport);
 
