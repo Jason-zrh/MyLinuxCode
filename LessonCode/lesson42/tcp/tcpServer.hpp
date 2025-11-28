@@ -1,5 +1,7 @@
 #pragma once
 #include "log.hpp"
+#include "Task.hpp"
+#include "threadPool.hpp"
 #include <iostream>
 #include <memory>
 #include <string.h>
@@ -35,6 +37,7 @@ public:
     ,_clientport(port)
     ,_tsvr(t)
     { }
+    
 public:
     int _sockfd;
     string _clientip;
@@ -52,6 +55,7 @@ public:
     ,_ip(ip)
     { }
 
+// ========================== 服务器初始化 ============================
     void Init()
     {
         _listensock = socket(AF_INET, SOCK_STREAM, 0);
@@ -90,18 +94,24 @@ public:
         lg(Info, "Listen socket success");
 
     }   
-    static void* Routine(void* args)
-    {
-        // 主线程一直在获取新的连接，不能去阻塞的等待子线程，所以子线程一创建出来就要立马detach
-        pthread_detach(pthread_self());
-        threadData* td = static_cast<threadData*>(args);
-        td->_tsvr->Service(td->_sockfd, td->_clientip, td->_clientport);
-        delete td;
-        return nullptr;
-    }
 
+    // static void* Routine(void* args)
+    // {
+    //     // 主线程一直在获取新的连接，不能去阻塞的等待子线程，所以子线程一创建出来就要立马detach
+    //     pthread_detach(pthread_self());
+    //     threadData* td = static_cast<threadData*>(args);
+    //     td->_tsvr->Service(td->_sockfd, td->_clientip, td->_clientport);
+    //     delete td;
+    //     return nullptr;
+    // }
+
+// ========================== 服务器启动 ============================
     void Run()
     {
+        // 启动的同时要把线程池也启动
+        threadPool<Task>::GetInstance()->Start();
+
+
         lg(Info, "Tcp Server is running");
         while(true)
         {
@@ -150,51 +160,52 @@ public:
             // (void)rid;
 
             // Version three(多线程版本)
-            pthread_t tid;
-            pthread_create(&tid, nullptr, Routine, td);
+            // pthread_t tid;
+            // pthread_create(&tid, nullptr, Routine, td);
 
             // Version four(线程池版本)
-
-            
+            // 构建任务
+            Task task(sockfd, clientip, clientport);
+            // 将任务插入任务队列
+            threadPool<Task>::GetInstance()->Push(task);
         }
     }
 
-    // 服务器功能函数
-    void Service(int sockfd, const string& clientip, const uint16_t& clientport)
-    {
-        char buffer[4096];
-        while(true)
-        {
-            // tcp通信方式是直接用文件操作完成读写
-            int n = read(sockfd, buffer, sizeof(buffer));
-            if(n > 0)
-            {
-                // 相当于读上来的是一个字符串
-                buffer[n] = 0;
-                cout << "Client say# " << buffer << endl;
-            }
-            else if (n == 0)
-            {
-                // 客户端关闭
-                lg(Info, "[%s:%d] quit, server close: %d",clientip.c_str(), clientport, sockfd);
-                break;
-            }
-            else
-            {
-                lg(Warning, "Read error, sockfd: %d, client ip: %s, client port: %d", sockfd, clientip.c_str(), clientport);
-                break;
-            }
-            
-            string echo_string = "Sever echo# ";
-            echo_string += buffer;
-            // 再把拼接后的string发回去
-            write(sockfd, echo_string.c_str(), echo_string.size());
-        }
-    }
+
+// ========================== 服务器功能函数(Version1 - 3) ============================
+    // void Service(int sockfd, const string& clientip, const uint16_t& clientport)
+    // {
+    //     char buffer[4096];
+    //     while(true)
+    //     {
+    //         // tcp通信方式是直接用文件操作完成读写
+    //         int n = read(sockfd, buffer, sizeof(buffer));
+    //         if(n > 0)
+    //         {
+    //             // 相当于读上来的是一个字符串
+    //             buffer[n] = 0;
+    //             cout << "Client say# " << buffer << endl;
+    //         }
+    //         else if (n == 0)
+    //         {
+    //             // 客户端关闭
+    //             lg(Info, "[%s:%d] quit, server close: %d",clientip.c_str(), clientport, sockfd);
+    //             break;
+    //         }
+    //         else
+    //         {
+    //             lg(Warning, "Read error, sockfd: %d, client ip: %s, client port: %d", sockfd, clientip.c_str(), clientport);
+    //             break;
+    //         }    
+    //         string echo_string = "Sever echo# ";
+    //         echo_string += buffer;
+    //         // 再把拼接后的string发回去
+    //         write(sockfd, echo_string.c_str(), echo_string.size());
+    //     }
+    // }
 
     ~tcpServer()
     { }
-
 
 private:
     int _listensock;
