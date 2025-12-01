@@ -1,3 +1,4 @@
+// ====================== TCP服务器 ======================
 #pragma once
 #include "Socket.hpp"
 #include <signal.h>
@@ -33,8 +34,11 @@ public:
             // 提供服务
             if(fork() == 0)
             {
-                
+                // 子进程
+                _listenfd.Close();
             }
+            // 父进程
+            close(sockfd);
         }
     }
     

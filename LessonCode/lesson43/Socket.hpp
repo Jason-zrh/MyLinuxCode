@@ -1,3 +1,4 @@
+// ====================== 套接字封装 ======================
 #include "log.hpp"
 #include <iostream>
 #include <string>
@@ -71,7 +72,7 @@ public:
         }
     }
 
-    // 获取链接
+    // 获取链接 (服务器用)
     int Accept(string* clientip, uint16_t* clientport)
     {
         sockaddr_in client;
@@ -89,11 +90,21 @@ public:
         return newfd;
     }
 
+    // 链接(客户端用)
     int Connect()
     {
 
     }
+
+    // 关闭套接字
+    void Close()
+    {
+        close(_sockfd);
+    }
+
+
     
+
 private:
     int _sockfd;
 };
