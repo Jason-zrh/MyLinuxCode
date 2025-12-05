@@ -1,0 +1,95 @@
+<!-- filename: index.html -->
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>实验 — Index</title>
+    <style>
+        body 
+        {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            padding: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header 
+        {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px
+        }
+
+        nav a 
+        {
+            margin-right: 12px;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.08)
+        }
+
+        .card 
+        {
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+            margin-bottom: 12px
+        }
+
+        footer 
+        {
+            margin-top: 32px;
+            color: #666
+        }
+
+        .btn 
+        {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            text-decoration: none;
+            border: 1px solid rgba(0, 0, 0, 0.06)
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>实验页面 — Index</h1>
+    </header>
+
+    <nav>
+        <a href="page1.html">跳转到 页面 1</a>
+        <a href="page2.html">跳转到 页面 2</a>
+        <a href="page3.html">跳转到 页面 3</a>
+    </nav>
+
+    <section class="card">
+        <h2>说明</h2>
+        <p>这是一个简单的实验用 <strong>index.html</strong>，使用 UTF-8 编码（包括中文）。点击上方链接可以在本地模拟网页跳转。</p>
+        <p>当前目录下应包含以下文件：<code>index.html</code>, <code>page1.html</code>, <code>page2.html</code>,
+            <code>page3.html</code>.</p>
+        <p>示例按钮（通过 JavaScript 跳转）：</p>
+        <p>
+            <a class="btn" href="page1.html">打开 页面 1</a>
+            <a class="btn" href="page2.html">打开 页面 2</a>
+            <a class="btn" href="page3.html">打开 页面 3</a>
+        </p>
+    </section>
+
+    <section class="card">
+        <h3>测试内容（含中文、特殊字符）</h3>
+        <p>欢迎！这里包含中文: 测试 — 编码为 UTF-8。特殊字符示例：© ™ ✓ λ — 你好，世界！</p>
+    </section>
+
+    <footer>
+        <p>打开方式：将这四个 HTML 文件放在同一目录，双击 <code>index.html</code> 或在浏览器中打开。</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!-- filename: page1.html -->
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>页面 1</title>
+    <style>
+        body {
+            font-family: system-ui;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 12px
+        }
+    </style>
+</head>
+
+<body>
+    <h1>页面 1</h1>
+    <p>这是页面 1,用于模拟从 index.html 的跳转。你可以在这里放任意内容，例如图片、表格或表单。</p>
+
+    <p>示例表单（不会提交，只用于演示）：</p>
+    <form onsubmit="event.preventDefault(); alert('表单已提交（模拟）');">
+        <label>姓名：<input type="text" name="name" placeholder="输入你的名字"></label>
+        <button type="submit">提交</button>
+    </form>
+
+    <p>
+        <a href="index.html">返回 Index</a> |
+        <a href="page2.html">去 页面 2</a> |
+        <a href="page3.html">去 页面 3</a>
+    </p>
+</body>
+
+</html>

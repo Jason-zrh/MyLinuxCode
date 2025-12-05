@@ -1,0 +1,49 @@
+<!-- filename: page3.html -->
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>页面 3</title>
+    <style>
+        body {
+            font-family: system-ui;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 12px
+        }
+    </style>
+</head>
+
+<body>
+    <h1>页面 3 — 跳转演示</h1>
+    <p>这是页面 3。下面演示一个基于 JavaScript 的延时跳转回 Index（3 秒倒计时）。</p>
+
+    <p id="count">3</p>
+    <script>
+        let n = 3;
+        const el = document.getElementById('count');
+        const t = setInterval(() => {
+            n -= 1;
+            el.textContent = n;
+            if (n <= 0) {
+                clearInterval(t);
+                window.location.href = 'index.html';
+            }
+        }, 1000);
+    </script>
+
+    <p>
+        <a href="index.html">立即返回 Index</a> |
+        <a href="page1.html">去 页面 1</a> |
+        <a href="page2.html">去 页面 2</a>
+    </p>
+</body>
+
+</html>
