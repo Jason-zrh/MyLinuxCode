@@ -1,4 +1,3 @@
-<!-- filename: index.html -->
 <!doctype html>
 <html lang="zh-CN">
 
@@ -55,6 +54,24 @@
             text-decoration: none;
             border: 1px solid rgba(0, 0, 0, 0.06)
         }
+        
+        /* 新增样式：用于控制图片容器 */
+        .image-container {
+            text-align: center; /* 居中图片 */
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        /* 新增样式：用于控制图片本身 */
+        .lyt-image {
+            max-width: 180px; /* 控制图片最大宽度 */
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -81,10 +98,15 @@
             <a class="btn" href="page3.html">打开 页面 3</a>
         </p>
     </section>
-
+    
+    <div class="card image-container">
+        <h3>来自桌面的 Test.png 图片展示</h3>
+        <img src="/image/LanLan.png">
+        <p style="margin-top: 10px; font-size: 0.9em; color: #888;">文件路径: /image/Test.png</p>
+    </div>
     <section class="card">
         <h3>测试内容（含中文、特殊字符）</h3>
-        <p>欢迎！这里包含中文: 测试 — 编码为 UTF-8。特殊字符示例：© ™ ✓ λ — 你好，世界！</p>
+        <p>欢迎！这里包含中文: 测试 — 编码为 UTF-8。特殊字符示例: © ™ ✓ λ — 你好，世界！</p>
     </section>
 
     <footer>
