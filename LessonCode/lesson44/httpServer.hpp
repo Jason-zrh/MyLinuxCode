@@ -1,5 +1,6 @@
 #pragma once
 #include "Socket.hpp"
+#include "Daemon.hpp"
 #include "log.hpp"
 #include <iostream>
 #include <vector>
@@ -225,6 +226,9 @@ public:
     // ########################## 服务器启动 ##########################
     void Start()
     {
+        // 加入守护进程
+        Daemon();
+
         // 创建套接字
         _listensock.Socket();
         // 防止服务器立即重启失败

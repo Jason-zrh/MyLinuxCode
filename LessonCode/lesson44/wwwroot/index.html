@@ -1,117 +1,459 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>实验 — Index</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me | C++ Backend Developer</title>
     <style>
-        body 
-        {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-            padding: 24px;
-            max-width: 900px;
-            margin: 0 auto;
+        /* --- 核心变量定义 --- */
+        :root {
+            --bg-body: #0d1117;       /* GitHub Dark 背景 */
+            --bg-card: #161b22;       /* 卡片背景 */
+            --border-color: #30363d;  /* 边框颜色 */
+            --accent-color: #58a6ff;  /* VSCode 蓝色高亮/强调色 */
+            --highlight: #2ea043;     /* 在线 绿色 */
+            --text-main: #c9d1d9;     /* 主文字色 */
+            --text-dim: #8b949e;      /* 次要文字色 */
+            --neon-glow: 0 0 12px rgba(88, 166, 255, 0.45);
         }
 
-        header 
-        {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* 字体更细，更具科技感 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #0b0f1a 40%, #101521 100%);
+            line-height: 1.6; /* 提高行高，增强可读性 */
+            font-size: 15px;
+            font-weight: 300; /* 默认字体较细 */
+            min-height: 100vh;
+            color: var(--text-main);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* --- 赛博空间背景装饰 (来自您的增强) --- */
+        
+        /* 动态网格线 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 98%, rgba(88,166,255,0.06) 100%),
+                        linear-gradient(90deg, transparent 98%, rgba(88,166,255,0.06) 100%);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* 光点粒子背景 */
+        body::after {
+            content: "";
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image:
+                radial-gradient(rgba(88,166,255,0.14) 2px, transparent 3px),
+                radial-gradient(rgba(46,160,67,0.12) 2px, transparent 3px);
+            background-size: 160px 160px, 220px 220px;
+            animation: floatPoints 15s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes floatPoints {
+            from { transform: translateY(0px); }
+            to   { transform: translateY(-40px); }
+        }
+
+        /* --- 布局容器 --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* --- 左侧：技能时间轴 --- */
+        .skill-timeline {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid var(--border-color);
+            /* 增加轻微悬浮动画 */
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .skill-section {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        /* 时间轴上的节点图标 */
+        .node-icon {
+            position: absolute;
+            left: -29px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--bg-body);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            /* 节点发光增强 */
+            box-shadow: 0 0 12px rgba(88,166,255,0.6), 0 0 24px rgba(88,166,255,0.3);
+            animation: nodeGlow 3s infinite ease-in-out;
+        }
+
+        @keyframes nodeGlow {
+            0% { box-shadow: 0 0 8px rgba(88,166,255,0.4); }
+            50% { box-shadow: 0 0 16px rgba(88,166,255,0.8); }
+            100% { box-shadow: 0 0 8px rgba(88,166,255,0.4); }
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            margin-top: -5px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 24px
-        }
-
-        nav a 
-        {
-            margin-right: 12px;
-            text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.08)
-        }
-
-        .card 
-        {
-            padding: 16px;
-            border-radius: 10px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-            margin-bottom: 12px
-        }
-
-        footer 
-        {
-            margin-top: 32px;
-            color: #666
-        }
-
-        .btn 
-        {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 8px;
-            background: #f3f4f6;
-            text-decoration: none;
-            border: 1px solid rgba(0, 0, 0, 0.06)
+            text-shadow: 0 0 8px rgba(88,166,255,0.35); /* 标题发光 */
         }
         
-        /* 新增样式：用于控制图片容器 */
-        .image-container {
-            text-align: center; /* 居中图片 */
-            margin: 20px 0;
-            padding: 10px;
-            border: 1px dashed #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
+        .section-title span {
+            /* 优化分隔线样式 */
+            border-bottom: 1px dotted var(--border-color); 
+            flex-grow: 1;
+            margin-left: 15px;
+            opacity: 0.5;
         }
 
-        /* 新增样式：用于控制图片本身 */
-        .lyt-image {
-            max-width: 180px; /* 控制图片最大宽度 */
-            height: auto;
+        .skill-list {
+            list-style: none;
+            padding-left: 0; /* 列表本身无内边距 */
+        }
+
+        .skill-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            color: var(--text-main);
+            transition: 0.25s;
+            font-weight: 300; /* 技能描述使用更细字体 */
+        }
+
+        .skill-list li:hover {
+            transform: translateX(8px) scale(1.02);
+            color: #fff;
+            /* hover 发光效果增强 */
+            text-shadow: 0 0 8px rgba(88,166,255,0.7);
+        }
+
+        /* 自定义列表前面的符号 > */
+        .skill-list li::before {
+            content: "›";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color); /* 使用强调色 */
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 1.2em;
+            line-height: 1.4;
+        }
+        
+        strong {
+            color: #fff;
+            font-weight: 600;
+            background: rgba(110, 118, 129, 0.45); /* 代码块背景感 */
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            font-size: 0.95em; /* 略微增大字号 */
+            white-space: nowrap; /* 确保关键词不换行 */
+        }
+
+        /* --- 右侧：个人信息卡片 --- */
+        .profile-card {
+            background: linear-gradient(160deg, #161b22 0%, #141820 80%);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 24px;
+            position: sticky;
+            top: 40px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0,0,0,0.45), 0 0 12px rgba(88,166,255,0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden; /* 用于伪元素流光 */
+        }
+
+        /* 科技流光边框 (来自您的增强) */
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(120deg,
+                rgba(88,166,255,0.2),
+                rgba(46,160,67,0.15),
+                rgba(88,166,255,0.2)
+            );
+            z-index: -1;
+            filter: blur(12px);
+            opacity: 0.4;
+            animation: neonPulse 4s infinite alternate;
+        }
+
+        @keyframes neonPulse {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.45; }
+        }
+
+        .profile-card:hover {
+            transform: translateY(-4px); /* 悬浮感略微降低 */
+            box-shadow: 0 0 30px rgba(88,166,255,0.25);
+        }
+
+        /* 头像样式 */
+        .avatar-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--border-color);
+            transition: 0.3s;
+            box-shadow: 0 0 18px rgba(88,166,255,0.3); /* 头像发光 */
+        }
+        
+        .profile-card:hover .avatar-wrapper img {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 22px rgba(88,166,255,0.55);
+        }
+
+        /* 在线状态小绿点 */
+        .status-dot {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 18px;
+            height: 18px;
+            background: var(--bg-body);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .status-dot::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            background: var(--highlight);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--highlight);
+        }
+
+        .name {
+            font-size: 1.6rem; /* 略微增大 */
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .bio {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        /* 按钮组 */
+        .action-btn {
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            margin-bottom: 12px;
             border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.25s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .action-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(88,166,255,0.2);
+        }
+
+        .btn-github {
+            background: #21262d;
+            color: #fff;
+        }
+
+        .btn-csdn {
+            background: #c71d23;
+            color: #fff;
+        }
+
+        /* 页脚信息 */
+        .footer-info {
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+            color: var(--text-dim);
+            text-align: left;
+            font-size: 0.85rem;
+        }
+        
+        .footer-info p {
+            margin-bottom: 5px;
+        }
+
+        .server-tag {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 3px 10px;
+            background: rgba(88,166,255,0.15);
+            border: 1px solid rgba(88,166,255,0.3);
+            border-radius: 10px;
+            color: var(--accent-color);
+            font-size: 0.75rem;
+        }
+
+        /* --- 响应式适配 (保持您原有的逻辑) --- */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px 15px;
+            }
+            .profile-card {
+                position: static;
+                transform: none;
+            }
+            .profile-card:hover {
+                transform: none;
+            }
+            .skill-timeline {
+                border-left: none;
+                padding-left: 0;
+            }
+            .node-icon {
+                display: none;
+            }
+            .section-title {
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 10px;
+                margin-top: 0;
+            }
+            .section-title span { display: none; }
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <h1>实验页面 — Index</h1>
-    </header>
 
-    <nav>
-        <a href="page1.html">跳转到 页面 1</a>
-        <a href="page2.html">跳转到 页面 2</a>
-        <a href="page3.html">跳转到 页面 3</a>
-    </nav>
+<div class="container">
 
-    <section class="card">
-        <h2>说明</h2>
-        <p>这是一个简单的实验用 <strong>index.html</strong>，使用 UTF-8 编码（包括中文）。点击上方链接可以在本地模拟网页跳转。</p>
-        <p>当前目录下应包含以下文件：<code>index.html</code>, <code>page1.html</code>, <code>page2.html</code>,
-            <code>page3.html</code>.</p>
-        <p>示例按钮（通过 JavaScript 跳转）：</p>
-        <p>
-            <a class="btn" href="page1.html">打开 页面 1</a>
-            <a class="btn" href="page2.html">打开 页面 2</a>
-            <a class="btn" href="page3.html">打开 页面 3</a>
-        </p>
-    </section>
-    
-    <div class="card image-container">
-        <h3>来自桌面的 Test.png 图片展示</h3>
-        <img src="/image/LanLan.png">
-        <p style="margin-top: 10px; font-size: 0.9em; color: #888;">文件路径: /image/Test.png</p>
+    <div class="main-content">
+        <div class="skill-timeline">
+            
+            <div class="skill-section">
+                <div class="node-icon"></div>
+                <h2 class="section-title">编程语言 & 数据结构 <span></span></h2>
+                <ul class="skill-list">
+                    <li>熟悉 <strong>C/C++</strong> 基本语法，深入理解面向对象思想（封装、继承、多态）及模板编程。</li>
+                    <li>精通动态内存管理，熟练使用智能指针及 <strong>RAII</strong> 资源管理机制。</li>
+                    <li>熟练掌握 <strong>STL</strong> 常用容器，深入理解 `vector`, `map`, `unordered_map` 等底层原理及空间配置器。</li>
+                    <li>扎实的数据结构功底：熟悉链表、栈、队列、堆、二叉树、哈希表等。</li>
+                    <li>熟悉常见排序算法（快排、归并、堆排序）及搜索结构（**AVL树、红黑树**、B树、跳表）。</li>
+                    <li>了解高级数据结构与算法：倒排索引、位图、布隆过滤器。</li>
+                    <li>熟悉常用设计模式：单例、工厂、策略、观察者、代理模式等。</li>
+                    <li>熟练使用 <strong>MySQL</strong> 进行 CRUD 操作，理解索引优化与事务隔离级别。</li>
+                    <li>了解 Redis 缓存、Nginx 反向代理、Flink 流处理等中间件原理。</li>
+                </ul>
+            </div>
+
+            <div class="skill-section">
+                <div class="node-icon"></div>
+                <h2 class="section-title">Linux 系统编程 <span></span></h2>
+                <ul class="skill-list">
+                    <li>熟练使用 Linux 常用命令及开发工具链 (**vim, gcc, gdb, git, Makefile**)。</li>
+                    <li>深入理解 Linux **多线程 / 多进程**编程，掌握进程同步、互斥锁、条件变量及信号处理。</li>
+                    <li>熟悉进程间通信 (**IPC**) 机制：管道 (Pipe)、消息队列、信号量、共享内存。</li>
+                </ul>
+            </div>
+
+            <div class="skill-section">
+                <div class="node-icon"></div>
+                <h2 class="section-title">计算机网络 & 网络编程 <span></span></h2>
+                <ul class="skill-list">
+                    <li>深入理解 **TCP/IP** 协议栈，清晰掌握数据在各层的封装与分用过程。</li>
+                    <li>熟悉核心网络协议：TCP (三次握手/四次挥手/拥塞控制)、UDP、**HTTP 1.0/1.1**。</li>
+                    <li>具备扎实的网络编程基础，熟练进行 Linux 下的 **Socket API** 编程。</li>
+                    <li>精通 5 种 I/O 模型，特别是阻塞 I/O、非阻塞 I/O 与 I/O 多路复用。</li>
+                    <li>核心强项：熟练掌握 **select / poll / epoll** 技术，并应用于高性能服务器开发。</li>
+                </ul>
+            </div>
+
+        </div>
     </div>
-    <section class="card">
-        <h3>测试内容（含中文、特殊字符）</h3>
-        <p>欢迎！这里包含中文: 测试 — 编码为 UTF-8。特殊字符示例: © ™ ✓ λ — 你好，世界！</p>
-    </section>
 
-    <footer>
-        <p>打开方式：将这四个 HTML 文件放在同一目录，双击 <code>index.html</code> 或在浏览器中打开。</p>
-    </footer>
+    <aside class="sidebar">
+        <div class="profile-card">
+            <div class="avatar-wrapper">
+                <img src="/image/Zrh.jpg" alt="Profile Picture">
+                <div class="status-dot" title="Server Online"></div>
+            </div>
+            
+            <h1 class="name">张仁河</h1>
+            <p class="bio">C++ 后端开发工程师<br>Linux 系统编程 / 高性能网络服务</p>
+            
+            <div style="margin-top: 25px;">
+                <a href="https://github.com/Jason-zrh" target="_blank" class="action-btn btn-github">
+                    GitHub 主页
+                </a>
+                <a href="https://blog.csdn.net/2401_87984738" target="_blank" class="action-btn btn-csdn">
+                    CSDN 博客
+                </a>
+            </div>
+
+            <div class="footer-info">
+                <p>⚡️ **Server Status:** Online</p>
+                <p>Architecture: **Reactor Pattern**</p>
+                <div class="server-tag">Powered by Custom C++ TCP Server</div>
+            </div>
+        </div>
+    </aside>
+
+</div>
+
 </body>
-
 </html>
