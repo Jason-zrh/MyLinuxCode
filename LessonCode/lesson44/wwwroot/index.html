@@ -294,6 +294,43 @@
             line-height: 1.4;
         }
 
+        /* 新增的联系信息样式 */
+        .contact-info {
+            text-align: left;
+            margin-top: -10px; /* 向上微调，拉近与 Bio 的距离 */
+            margin-bottom: 25px; /* 推开与下方按钮的距离 */
+            border-top: 1px dashed rgba(255, 255, 255, 0.08); /* 虚线上边框 */
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08); /* 虚线下边框 */
+            padding: 15px 0;
+            line-height: 1.8;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .contact-item a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent-color);
+        }
+
+        .contact-icon {
+            margin-right: 10px;
+            color: var(--accent-color);
+            font-size: 1.1em;
+            font-family: monospace; /* 确保图标字符显示良好 */
+            font-weight: bold;
+        }
+
         /* 按钮组 */
         .action-btn {
             display: block;
@@ -436,6 +473,16 @@
             <h1 class="name">张仁河</h1>
             <p class="bio">C++ 后端开发工程师<br>Linux 系统编程 / 高性能网络服务</p>
             
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <a href="mailto:renhe.zhang@hotmail.com">renhe.zhang@hotmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📱</span>
+                    <a href="tel:+8618660527639">+86 18660527639</a>
+                </div>
+            </div>
             <div style="margin-top: 25px;">
                 <a href="https://github.com/Jason-zrh" target="_blank" class="action-btn btn-github">
                     GitHub 主页

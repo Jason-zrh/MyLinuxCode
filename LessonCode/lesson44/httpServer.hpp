@@ -227,7 +227,7 @@ public:
     void Start()
     {
         // 加入守护进程
-        Daemon();
+        // Daemon();
 
         // 创建套接字
         _listensock.Socket();
