@@ -8,7 +8,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
 // 每个Linux机子中都有这个文件，相当于Linux中的垃圾桶
 const std::string nullfile = "/dev/null";
 
