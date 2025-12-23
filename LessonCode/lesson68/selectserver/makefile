@@ -1,6 +1,6 @@
-testlog:testlog.cc log.hpp
+SelectServer:main.cc
 	g++ -o $@ $^ -std=c++11
 
 .PHONY:clean
 clean:
-	rm -f testlog
+	rm -f SelectServer
