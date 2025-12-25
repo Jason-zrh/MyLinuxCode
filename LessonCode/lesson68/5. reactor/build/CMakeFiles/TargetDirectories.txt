@@ -1,0 +1,3 @@
+/home/mylinux/MyLinuxCode/LessonCode/lesson68/reactor/build/CMakeFiles/ReactorServer.dir
+/home/mylinux/MyLinuxCode/LessonCode/lesson68/reactor/build/CMakeFiles/edit_cache.dir
+/home/mylinux/MyLinuxCode/LessonCode/lesson68/reactor/build/CMakeFiles/rebuild_cache.dir
