@@ -1,0 +1,3 @@
+/home/mylinux/MyLinuxCode/LessonCode/lesson68/epollserver/build/CMakeFiles/Epollserver.dir
+/home/mylinux/MyLinuxCode/LessonCode/lesson68/epollserver/build/CMakeFiles/edit_cache.dir
+/home/mylinux/MyLinuxCode/LessonCode/lesson68/epollserver/build/CMakeFiles/rebuild_cache.dir
