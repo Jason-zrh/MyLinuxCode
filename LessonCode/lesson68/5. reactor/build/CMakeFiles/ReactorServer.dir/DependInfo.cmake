@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mylinux/MyLinuxCode/LessonCode/lesson68/reactor/main.cc" "CMakeFiles/ReactorServer.dir/main.cc.o" "gcc" "CMakeFiles/ReactorServer.dir/main.cc.o.d"
+  "/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/main.cc" "CMakeFiles/ReactorServer.dir/main.cc.o" "gcc" "CMakeFiles/ReactorServer.dir/main.cc.o.d"
   )
 
 # Targets to which this target links.

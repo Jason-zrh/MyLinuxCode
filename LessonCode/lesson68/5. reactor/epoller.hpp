@@ -18,7 +18,6 @@ public:
 
     // 创建epoller
     Epoller()
-    :_timeout(-1)
     { 
         _epfd = epoll_create(size);
         if(_epfd == -1)
@@ -31,10 +30,10 @@ public:
         }
     }
     
-    int epollWait(epoll_event revents[], int num)
+    int epollWait(epoll_event revents[], int num, int timeout)
     {
         // 参数: 关心哪个epoll文件描述符, 就绪后的文件描述符结构体放在哪, 就绪后最多存放的数量, timeout
-        int n = epoll_wait(_epfd, revents, num, _timeout); // 这里把timeout设为 -1 表示阻塞等待
+        int n = epoll_wait(_epfd, revents, num, timeout); // 这里把timeout设为 -1 表示阻塞等待
         return n;
     }
 
@@ -75,5 +74,4 @@ public:
     }
 private:
     int _epfd;
-    int _timeout;
 };
