@@ -1,3 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
-project(ReactorServer)
-add_executable(ReactorServer main.cc)
+project(Reactor)
+
+add_executable(reactor_server main.cc)
+target_link_libraries(reactor_server jsoncpp)
+
+add_executable(client ClientCal.cc)
+target_link_libraries(client jsoncpp)

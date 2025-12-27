@@ -117,24 +117,61 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ReactorServer
+# Target rules for targets named reactor_server
 
 # Build rule for target.
-ReactorServer: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ReactorServer
-.PHONY : ReactorServer
+reactor_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 reactor_server
+.PHONY : reactor_server
 
 # fast build rule for target.
-ReactorServer/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReactorServer.dir/build.make CMakeFiles/ReactorServer.dir/build
-.PHONY : ReactorServer/fast
+reactor_server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/reactor_server.dir/build.make CMakeFiles/reactor_server.dir/build
+.PHONY : reactor_server/fast
+
+#=============================================================================
+# Target rules for targets named client
+
+# Build rule for target.
+client: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 client
+.PHONY : client
+
+# fast build rule for target.
+client/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
+.PHONY : client/fast
+
+ClientCal.o: ClientCal.cc.o
+.PHONY : ClientCal.o
+
+# target to build an object file
+ClientCal.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/ClientCal.cc.o
+.PHONY : ClientCal.cc.o
+
+ClientCal.i: ClientCal.cc.i
+.PHONY : ClientCal.i
+
+# target to preprocess a source file
+ClientCal.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/ClientCal.cc.i
+.PHONY : ClientCal.cc.i
+
+ClientCal.s: ClientCal.cc.s
+.PHONY : ClientCal.s
+
+# target to generate assembly for a file
+ClientCal.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/ClientCal.cc.s
+.PHONY : ClientCal.cc.s
 
 main.o: main.cc.o
 .PHONY : main.o
 
 # target to build an object file
 main.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReactorServer.dir/build.make CMakeFiles/ReactorServer.dir/main.cc.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/reactor_server.dir/build.make CMakeFiles/reactor_server.dir/main.cc.o
 .PHONY : main.cc.o
 
 main.i: main.cc.i
@@ -142,7 +179,7 @@ main.i: main.cc.i
 
 # target to preprocess a source file
 main.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReactorServer.dir/build.make CMakeFiles/ReactorServer.dir/main.cc.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/reactor_server.dir/build.make CMakeFiles/reactor_server.dir/main.cc.i
 .PHONY : main.cc.i
 
 main.s: main.cc.s
@@ -150,7 +187,7 @@ main.s: main.cc.s
 
 # target to generate assembly for a file
 main.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReactorServer.dir/build.make CMakeFiles/ReactorServer.dir/main.cc.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/reactor_server.dir/build.make CMakeFiles/reactor_server.dir/main.cc.s
 .PHONY : main.cc.s
 
 # Help Target
@@ -161,7 +198,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... ReactorServer"
+	@echo "... client"
+	@echo "... reactor_server"
+	@echo "... ClientCal.o"
+	@echo "... ClientCal.i"
+	@echo "... ClientCal.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

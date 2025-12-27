@@ -63,7 +63,8 @@ CMAKE_BINARY_DIR = "/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/bui
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/ReactorServer.dir/all
+all: CMakeFiles/reactor_server.dir/all
+all: CMakeFiles/client.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +72,61 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/ReactorServer.dir/clean
+clean: CMakeFiles/reactor_server.dir/clean
+clean: CMakeFiles/client.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/ReactorServer.dir
+# Target rules for target CMakeFiles/reactor_server.dir
 
 # All Build rule for target.
-CMakeFiles/ReactorServer.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReactorServer.dir/build.make CMakeFiles/ReactorServer.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReactorServer.dir/build.make CMakeFiles/ReactorServer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles" --progress-num=1,2 "Built target ReactorServer"
-.PHONY : CMakeFiles/ReactorServer.dir/all
+CMakeFiles/reactor_server.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/reactor_server.dir/build.make CMakeFiles/reactor_server.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/reactor_server.dir/build.make CMakeFiles/reactor_server.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles" --progress-num=3,4 "Built target reactor_server"
+.PHONY : CMakeFiles/reactor_server.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/ReactorServer.dir/rule: cmake_check_build_system
+CMakeFiles/reactor_server.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles" 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ReactorServer.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/reactor_server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles" 0
-.PHONY : CMakeFiles/ReactorServer.dir/rule
+.PHONY : CMakeFiles/reactor_server.dir/rule
 
 # Convenience name for target.
-ReactorServer: CMakeFiles/ReactorServer.dir/rule
-.PHONY : ReactorServer
+reactor_server: CMakeFiles/reactor_server.dir/rule
+.PHONY : reactor_server
 
 # clean rule for target.
-CMakeFiles/ReactorServer.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ReactorServer.dir/build.make CMakeFiles/ReactorServer.dir/clean
-.PHONY : CMakeFiles/ReactorServer.dir/clean
+CMakeFiles/reactor_server.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/reactor_server.dir/build.make CMakeFiles/reactor_server.dir/clean
+.PHONY : CMakeFiles/reactor_server.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/client.dir
+
+# All Build rule for target.
+CMakeFiles/client.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles" --progress-num=1,2 "Built target client"
+.PHONY : CMakeFiles/client.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/client.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles" 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/client.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles" 0
+.PHONY : CMakeFiles/client.dir/rule
+
+# Convenience name for target.
+client: CMakeFiles/client.dir/rule
+.PHONY : client
+
+# clean rule for target.
+CMakeFiles/client.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/clean
+.PHONY : CMakeFiles/client.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

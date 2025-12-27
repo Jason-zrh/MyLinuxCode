@@ -1,3 +1,4 @@
-/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles/ReactorServer.dir
+/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles/reactor_server.dir
+/home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles/client.dir
 /home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles/edit_cache.dir
 /home/mylinux/MyLinuxCode/LessonCode/lesson68/5. reactor/build/CMakeFiles/rebuild_cache.dir
